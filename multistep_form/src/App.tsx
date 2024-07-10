@@ -1,23 +1,48 @@
 import UserForm from "./components/UserForm";
 import ReviewForm from "./components/ReviewForm";
 import Thanks from "./components/Thanks";
+import Steps from "./components/Steps";
 
-
+import { useState } from "react";
 import { userForm } from "./hooks/useForm";
 
 import { GrFormNext, GrFormPrevious } from "react-icons/gr";
+import { FiSend } from "react-icons/fi";
 
 
 import './App.css';
 
+type FormFields = {
+  name: string,
+  email: string,
+  review: string,
+  comment: string,
+}
+
+
+const formtemplate: FormFields = {
+  name: "",
+  email: "",
+  review: "",
+  comment: "",
+}
+
 function App() {
+  const [data, setData] = useState(formtemplate);
+
+  const updateFieldHandler = (key: string, value: string) => {
+    setData ((prev) => {
+      return { ...prev, [key]: value};
+    });
+  };
+
   const formComponents = [
-    <UserForm />,
-    <ReviewForm />,
-    <Thanks />,
+    <UserForm data={data} updateFieldHandler={updateFieldHandler}/>,
+    <ReviewForm data={data} updateFieldHandler={updateFieldHandler}/>,
+    <Thanks data={data}/>,
   ];
   
-  const { currentStep, currentComponent, changeStep } = userForm(formComponents);
+  const { currentStep, currentComponent, changeStep, isLastStep } = userForm(formComponents);
 
   return (
   
@@ -30,7 +55,7 @@ function App() {
         </p>
       </div>
       <div className="form-container">
-        <p>passos</p>
+        <Steps currentStep={currentStep}/>
         <form onSubmit={(e) => changeStep(currentStep + 1, e)}>
           <div className="inputs-container">
             {currentComponent}
@@ -40,10 +65,14 @@ function App() {
               <GrFormPrevious />
               <span>Voltar</span>
             </button>
+            {!isLastStep ? 
             <button type="submit">
               <span>Avançar</span>
               <GrFormNext />
-            </button>
+            </button> : ( <button  type="button">
+              <span>Enviar</span>
+              <FiSend/>
+            </button> ) }
           </div>
         </form>
       </div>
