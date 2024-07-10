@@ -7,7 +7,7 @@
 #### Imagem do projeto
 ##### Nome: Avaliação do usuário feito com react e typescript.
 
-##### Link: https://party-budget.vercel.app/
+##### Link: https://react-ts-multistep-form-psi.vercel.app/
 
 <img align="center" src="/multistep_form/public/projeto.png" alt="imagem do projeto"/>
 
